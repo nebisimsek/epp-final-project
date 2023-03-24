@@ -1,0 +1,47 @@
+\appendix
+\section{Appendix}
+
+\section{Appendix}\label{did_apendix}
+
+\begin{table}[htbp]
+	\caption{Root Mean Squared Error of $\beta_2$ Estimates for the Simulations}
+	\centering
+	\setlength{\tabcolsep}{0.7cm}
+	\begin{subtable}{\linewidth}
+		\caption{Time Invariant Error Correlations $c_{unit}$}
+		\centering
+		\input{../simulations/plots/rmse_c1.tex}
+	\end{subtable}%
+	\vspace{0.2cm}
+	\begin{subtable}{\linewidth}
+		\caption{Variance Across Time $c_{var}$}
+		\centering
+		\input{../simulations/plots/rmse_c2.tex}
+	\end{subtable}%
+	\vspace{0.2cm}
+	\begin{subtable}{\linewidth}
+		\caption{Trended Variables $c_{trend}$}
+		\centering
+		\input{../simulations/plots/rmse_c3.tex}
+	\end{subtable}%
+	\vspace{0.2cm}
+	\begin{subtable}{\linewidth}
+		\caption{Unit Invariant Error Correlations $c_{time}$}
+		\centering
+		\input{../simulations/plots/rmse_c4.tex}
+	\end{subtable}%
+	\caption*{\scriptsize{This table summarizes the root mean
+	squared errors of the estimates in different scenarios. For each scenario, the resulting RMSE
+	of three different estimators is included. Part(a) controls for time-invariant
+	error correlations which are represented by $c_{unit}$.  We set $c_{time} = 0$, $c_{trend} = 0$
+    and $c_{var} = 0.25$. Part(b) controls for the variation of covariates
+	across time using $c_{var}$. We set $c_{time} = 0$, $c_{trend} = 0$
+    and $c_{unit} = 0.4$. Part(c) includes the trended variables into the
+	model and control the intensity with $c_{trend}$. We set $c_{time} = 0$, $c_{var} = 0.25$
+    and $c_{unit} = 0.4$ in this part. Finally, Part(d) controls
+	for the correlation of unit-invariant error terms and we set
+	$c_{trend} = 0$, $c_{var} = 0.25$, $c_{unit} = 0.4$. We take the average
+	of $500$ simulations where we used $20$ time periods, $100$ units
+	for each simulation.}}
+	\label{table:rmse}
+\end{table}

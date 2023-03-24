@@ -1,47 +1,119 @@
-"""Tasks running the core analyses."""
-
-import pandas as pd
 import pytask
 
-from epp_final_project.analysis.model import fit_logit_model, load_model
-from epp_final_project.analysis.predict import predict_prob_by_age
-from epp_final_project.config import BLD, GROUPS, SRC
-from epp_final_project.utilities import read_yaml
-
-
-@pytask.mark.depends_on(
-    {
-        "scripts": ["model.py", "predict.py"],
-        "data": BLD / "python" / "data" / "data_clean.csv",
-        "data_info": SRC / "data_management" / "data_info.yaml",
-    },
+from epp_final_project.analysis.model import compare_est
+from epp_final_project.config import (
+    BLD,
+    c_time_values,
+    c_trend_values,
+    c_unit_values,
+    c_var_values,
 )
-@pytask.mark.produces(BLD / "python" / "models" / "model.pickle")
-def task_fit_model_python(depends_on, produces):
-    """Fit a logistic regression model (Python version)."""
-    data_info = read_yaml(depends_on["data_info"])
-    data = pd.read_csv(depends_on["data"])
-    model = fit_logit_model(data, data_info, model_type="linear")
-    model.save(produces)
 
-
-for group in GROUPS:
-
+for c_unit in c_unit_values:
     kwargs = {
-        "group": group,
-        "produces": BLD / "python" / "predictions" / f"{group}.csv",
+        "produces": BLD / "python" / "data" / "c_unit" / f"{c_unit}.csv",
+        "group": c_unit,
     }
 
-    @pytask.mark.depends_on(
-        {
-            "data": BLD / "python" / "data" / "data_clean.csv",
-            "model": BLD / "python" / "models" / "model.pickle",
-        },
-    )
-    @pytask.mark.task(id=group, kwargs=kwargs)
-    def task_predict_python(depends_on, group, produces):
-        """Predict based on the model estimates (Python version)."""
-        model = load_model(depends_on["model"])
-        data = pd.read_csv(depends_on["data"])
-        predicted_prob = predict_prob_by_age(data, model, group)
-        predicted_prob.to_csv(produces, index=False)
+    @pytask.mark.task(kwargs=kwargs)
+    def task_monte_carlo(produces, group):
+        """Simulate the underlying model for different c_unit values."""
+        df = compare_est(
+            n_sim=25,
+            n_obs=30,
+            t_per=10,
+            true_params=[1, 5, 3, 3, 3],
+            c_unit=group,
+            c_time=0,
+            seed=42,
+            c_trend=0,
+            c_var=0.25,
+        )
+        df.to_csv(produces, index=False)
+
+
+for c_var in c_var_values:
+    kwargs = {
+        "produces": BLD / "python" / "data" / "c_var" / f"{c_var}.csv",
+        "group": c_var,
+    }
+
+    @pytask.mark.task(kwargs=kwargs)
+    def task_monte_carlo(produces, group):
+        """Simulate the underlying model for different c_var values."""
+        df = compare_est(
+            n_sim=25,
+            n_obs=30,
+            t_per=10,
+            true_params=[1, 5, 3, 3, 3],
+            c_unit=0.4,
+            c_time=0,
+            seed=42,
+            c_trend=0,
+            c_var=group,
+        )
+        df.to_csv(produces, index=False)
+
+
+for c_trend in c_trend_values:
+    kwargs = {
+        "produces": BLD / "python" / "data" / "c_trend" / f"{c_trend}.csv",
+        "group": c_trend,
+    }
+
+    @pytask.mark.task(kwargs=kwargs)
+    def task_monte_carlo(produces, group):
+        """Simulate the underlying model for different c_trend values."""
+        df = compare_est(
+            n_sim=25,
+            n_obs=30,
+            t_per=10,
+            true_params=[1, 5, 3, 3, 3],
+            c_unit=0.4,
+            c_time=0,
+            seed=42,
+            c_trend=group,
+            c_var=0.25,
+        )
+        df.to_csv(produces, index=False)
+
+
+for c_time in c_time_values:
+    kwargs = {
+        "produces": BLD / "python" / "data" / "c_time" / f"{c_time}.csv",
+        "group": c_time,
+    }
+
+    @pytask.mark.task(kwargs=kwargs)
+    def task_monte_carlo(produces, group):
+        """Simulate the underlying model for different c_time values."""
+        df = compare_est(
+            n_sim=25,
+            n_obs=30,
+            t_per=10,
+            true_params=[1, 5, 3, 3, 3],
+            c_unit=0.4,
+            c_time=group,
+            seed=42,
+            c_trend=0,
+            c_var=0.25,
+        )
+        df.to_csv(produces, index=False)
+
+
+# """Tasks running the core analyses."""
+
+
+# @pytask.mark.depends_on(
+#     },
+# @pytask.mark.produces(BLD / "python" / "models" / "model.pickle")
+# def task_fit_model_python(depends_on, produces):
+
+
+# for group in GROUPS:
+
+
+#     @pytask.mark.depends_on(
+#         },
+#     @pytask.mark.task(id=group, kwargs=kwargs)
+#     def task_predict_python(depends_on, group, produces):
