@@ -1,5 +1,5 @@
 @Unpublished{epp_final_project2023,
-    Title  = {Epp Final Project where I compare three Panel Data Estimators: One-way, Two-way and Pooled with Monte Carlo Simulations},
+    Title  = {Comparing Three Panel Data Estimators: One-way, Two-way and Pooled with Monte Carlo Simulations},
     Author = {Nebi Simsek},
     Year   = {2023},
     Url    = {https://github.com/nebisimsek/epp_final_project}

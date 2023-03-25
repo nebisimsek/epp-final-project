@@ -1,6 +1,0 @@
-\contentsline {section}{\numberline {1}Monte Carlo Simulations}{2}{section.1}%
-\contentsline {section}{Monte Carlo Simulation}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Data Generating Process}{2}{subsection.1.1}%
-\contentsline {subsection}{Data Generating Process}{2}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Results}{3}{subsection.1.2}%
-\contentsline {subsection}{Results}{3}{subsection.1.2}%

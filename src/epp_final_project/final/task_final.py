@@ -28,7 +28,7 @@ for c_unit in c_unit_values:
             column_list=column_list,
             label_name=label_name,
         )
-        ax.set_title(rf"$c_{{unit}}=${group}", fontsize=10)
+        ax.set_title(rf"$c_{{unit}}=${group}", fontsize=15)
         ax.figure.savefig(produces)
 
 
@@ -50,7 +50,7 @@ for c_time in c_time_values:
             column_list=column_list,
             label_name=label_name,
         )
-        ax.set_title(rf"$c_{{time}}=${group}", fontsize=10)
+        ax.set_title(rf"$c_{{time}}=${group}", fontsize=15)
         ax.figure.savefig(produces)
 
 
@@ -72,7 +72,7 @@ for c_var in c_var_values:
             column_list=column_list,
             label_name=label_name,
         )
-        ax.set_title(rf"$c_{{var}}=${group}", fontsize=10)
+        ax.set_title(rf"$c_{{var}}=${group}", fontsize=15)
         ax.figure.savefig(produces)
 
 
@@ -94,7 +94,7 @@ for c_trend in c_trend_values:
             column_list=column_list,
             label_name=label_name,
         )
-        ax.set_title(rf"$c_{{trend}}=${group}", fontsize=10)
+        ax.set_title(rf"$c_{{trend}}=${group}", fontsize=15)
         ax.figure.savefig(produces)
 
 

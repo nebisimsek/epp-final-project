@@ -1,48 +1,18 @@
 \documentclass[12pt, a4paper]{article}
 
-\usepackage{float}
-\usepackage{booktabs, tabularx}
-\usepackage{multirow,array}
 \usepackage[utf8]{inputenc}
-\usepackage{blindtext}
-\usepackage{hyperref}
-\usepackage{natbib}
-\bibliographystyle{apa-good}
-\usepackage[nottoc]{tocbibind}
-\usepackage{amssymb}
-\usepackage{tcolorbox}
-\usepackage{caption}
-\usepackage{amsthm}
-\usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage{subfigure}
-\usepackage{marginnote} %notes for authors
-\usepackage{imakeidx}
-\usepackage{cleveref}
-\usepackage{threeparttable}
-\usepackage{subcaption}
+\usepackage{hyperref}
 \usepackage{fullpage}
+\usepackage{subfigure}
+\usepackage{caption}
+\usepackage{cleveref}
+\usepackage{float}
 \usepackage{setspace}\onehalfspacing
+
+
+
 \setstretch{1.5}
-\usepackage{abstract}
-%try idea: produce a header with our name in each section
-
-%Acronyms%
-\usepackage{acronym}
-\acrodef{cdf}[cdf]{\textbf{Cumulative Distribution Function}}
-\acrodef{pdf}[pdf]{\textbf{Probability Density Function}}
-\acrodef{pmf}[pmf]{\textbf{Probability Mass Function}}
-\acrodef{iid}[i.i.d.]{\textbf{independent and identically distributed}}
-\acrodef{did}[DiD]{\textbf{Difference-in-Difference}}
-\acrodef{ols}[OLS]{\textbf{Ordinary Least Squares}}
-\acrodef{twfe}[TWFE]{\textbf{Two-Way Fixed Effects}}
-\acrodef{twfer}[TWFEr]{\textbf{Two-Way Fixed Effects Regression}}
-\acrodef{OWFE}[OWFE]{\textbf{One-Way Fixed Effects}}
-\acrodef{mcs}[MCS]{\textbf{Monte Carlo Simulation}}
-
-
-
-
 
 \begin{document}
 
@@ -51,31 +21,19 @@
 \date{}
 
 \maketitle
-\vspace*{3em}
-\tableofcontents
-\pagebreak
-% \pagenumbering{Roman}
-
-% \include{./title.tex}
-% \tableofcontents
-% \clearpage
-% \listoffigures
-% \clearpage
-% \listoftables
-% \clearpage
-% \pagenumbering{arabic}
 
 \section{Monte Carlo Simulations}
-\addcontentsline{toc}{section}{Monte Carlo Simulation}
-In the previous section, we introduce \ac{OWFE} and \ac{twfe} estimators.
+%\addcontentsline{toc}{section}{Monte Carlo Simulation}
+In the previous section, we introduce one-way fixed effect(OWFE) and two-way fixed effect(TWFE) estimators.
 These estimators are especially needed when the fixed errors are correlated with the covariates.
 Correlation with the error terms results in bias that may lead to wrong interpretations.
 Luckily, it is possible to eliminate the bias term with the transformations mentioned in the previous
 section if the model satisfies certain assumptions. In this section, we conducted some
-Monte Carlo Simulations to see how \ac{OWFE} and \ac{twfe} estimators
+Monte Carlo Simulations to see how OWFE and TWFE estimators
 react to certain structural changes in the model.
+
 \subsection{Data Generating Process}
-\addcontentsline{toc}{subsection}{Data Generating Process}
+%\addcontentsline{toc}{subsection}{Data Generating Process}
 For simulations, we used a multivariate case, and the dependent variable is
 explained by five different characteristics. For each unit at a specific time,
 the covariates are structured in three parts: Unit-specific randomly
@@ -94,7 +52,7 @@ we generated the variation for each unit across time. We sum up these three term
 and obtain the covariates for unit $i$ at time $t$.
 $$X_{it} = X_{it}^{unit} + X_{it}^{time} + c_{var} X_{it}^{var}$$
 Here it is easy to see that we can control for the variation across time with the constant $c_{var}$. Setting this value to $0$, we will get unidentified TWFE estimates.
-Depending on the number of characteristics, we may also get an unidentified \ac{OWFE} results since we may not satisfy the full rank assumption. Following, we generate the error terms and trend variables.
+Depending on the number of characteristics, we may also get an unidentified OWFE results since we may not satisfy the full rank assumption. Following, we generate the error terms and trend variables.
 $$\epsilon_{it} \sim N(0, 1); \quad w_{i} \sim N(2, 0.5)$$
 $$u_i = c_{unit}X_{(2)}^{unit} + \nu_{i}; \quad \nu_{i} \sim U(0,1);
 \quad v_t = c_{time}X_{(2)}^{time}  + \xi_{t}; \quad \xi_{t} \sim U(0,1)$$
@@ -109,12 +67,22 @@ We introduced the time trend variable for each unit with $w_{i}$. The parameters
 set arbitrarily to obtain positive trend variables. Finally, we set $\beta = [1, 5, 3, 3, 3]$
 and obtain the $Y_{it}$.
 $$Y_{it} = [1, 5, 3, 3, 3] X_{it} + v_{t} + c_{trend} t w_{i} + u_{i} + \epsilon_{it} $$
-Here $t$ in front of $w_i$ represents the periods, and with another constant $c_{trend}$, we will control the intensity of the time trend. If we change this value to $0$, we can eliminate the trended variables. In all our simulations, we set $N = 100$, $T = 20$ and simulate the results $500$ times. In the next part, we will control the values of constants we introduced during DGP and show how \ac{OWFE} and
-\ac{twfe} estimators react to these changes.
+Here $t$ in front of $w_i$ represents the periods, and with another constant $c_{trend}$, we will control the intensity of the time trend.
+If we change this value to $0$, we can eliminate the trended variables. In all our simulations, we set $N = 100$, $T = 20$ and simulate the results
+$500$ times. In the next part, we will control the values of constants we introduced during DGP and show how OWFE and
+TWFE estimators react to these changes.
+
 
 \subsection{Results}
-\addcontentsline{toc}{subsection}{Results}
-\begin{figure}[htbp]
+%\addcontentsline{toc}{subsection}{Results}
+
+It is important to understand the bias structure and justify not using Pooled OLS
+estimator without transformation when we have correlated error terms. To see that,
+we first look at the correlated time-invariant and set $c_{unit} > 0$ while
+$c_{time} = 0$. In particular, we will use $c_{unit} \in \{0, 0.05, 0.15, 0.4\}$.
+The resulting density graphs of estimates are shown in \Cref{fig:c1}.
+
+\begin{figure}[H]
     \caption{Density Graph for $ \beta_2$ Under Different Unit Invariant Error Correlations}
     %\centerline{\includegraphics{../simulations/plots/time_invariant_corr.png}}
     \subfigure[]{\includegraphics[width=0.5\textwidth]{../bld/python/figures/c_unit/0.png}}
@@ -126,24 +94,17 @@ Here $t$ in front of $w_i$ represents the periods, and with another constant $c_
     estimators for different values of $c_{unit}$. We set $c_{time} = 0$, $c_{trend} = 0$
     and $c_{var} = 0.25$. We set $T = 20$, $N = 100$ and simulate the results
     for $500$ times. The resulting density graphs visualize the performance
-    of three different estimators: Pooled OLS estimator, \ac{OWFE} estimator and  \ac{twfe} estimator.
-    RMSE values for estimators can be found in \Cref{did_apendix} \Cref{table:rmse}(a).
-    \label{fig:c1}
+    of three different estimators: Pooled OLS estimator, OWFE estimator and  TWFE estimator.
     }}
+    \label{fig:c1}
 \end{figure}
-It is important to understand the bias structure and justify not using Pooled OLS
-estimator without transformation when we have correlated error terms. To see that,
-we first look at the correlated time-invariant and set $c_{unit} > 0$ while
-$c_{time} = 0$. In particular, we will use $c_{unit} \in \{0, 0.05, 0.15, 0.4\}$.
-The resulting density graphs of estimates are shown in Figure \ref{fig:c1}.
-
 
 Here we can see that as soon as we introduce the correlation with a positive
  $c_{unit}$, the pooled OLS estimates become unreliable. On the other hand,
- the performance of one-way and  \ac{twfe} estimators looks similar
- for all $c_{unit}$ values. Since we don't lose much with a  \ac{twfe}
+ the performance of one-way and  TWFE estimators looks similar
+ for all $c_{unit}$ values. Since we don't lose much with a  TWFE
  estimator, it looks like a safe choice for many analyses. However, when the
- variation over time is low, we may want to use \ac{OWFE} instead of  \ac{twfe}.
+ variation over time is low, we may want to use OWFE instead of  TWFE.
  To see that, we can control the variation of $X$ covariates over time with $c_{var}$ and
  observe the performance of the estimators. We will use $c_{var} \in \{0.03, 0.1, 0.25, 0.5\}$.
 \begin{figure}[htbp]
@@ -158,19 +119,18 @@ Here we can see that as soon as we introduce the correlation with a positive
     estimators for different values of $c_{var}$. We set $c_{time} = 0$, $c_{trend} = 0$
     and $c_{unit} = 0.4$. We set $T = 20$, $N = 100$ and simulate the results
     for $500$ times. Graphs visualize the performance
-    of three different estimators: Pooled OLS, \ac{OWFE} estimator and  \ac{twfe} estimator.
-    RMSE values for estimators can be found in \Cref{did_apendix} \Cref{table:rmse}(b).
-    \label{fig:c2}
+    of three different estimators: Pooled OLS, OWFE estimator and  TWFE estimator.
     }}
+    \label{fig:c2}
 \end{figure}
 
-The \ac{OWFE} estimator is a much better estimator when the variation
+The OWFE estimator is a much better estimator when the variation
 across time is low since we eliminate the variation of covariates
 further with the two-way within transformation.
-However, after introducing sufficient variation, we observe that the \ac{twfe} estimator becomes even more
-efficient than the \ac{OWFE} estimator since the decrease in the variation of residual terms dominates the decrease in the variation of X. Moreover, as we will see in Figure \ref{fig:c3},
-introducing the trended variable on the right-hand side of the model will cause further efficiency loss for the \ac{OWFE} estimator.
-\begin{figure}[t]
+However, after introducing sufficient variation, we observe that the TWFE estimator becomes even more
+efficient than the OWFE estimator since the decrease in the variation of residual terms dominates the decrease in the variation of X. Moreover, as we will see in \Cref{fig:c3},
+introducing the trended variable on the right-hand side of the model will cause further efficiency loss for the OWFE estimator.
+\begin{figure}[H]
     \caption{Density Graph for $\beta_2$ With Trended Variables}
     %\centerline{\includegraphics{../simulations/plots/trend.png}}
     \subfigure[]{\includegraphics[width=0.5\textwidth]{../bld/python/figures/c_trend/0.03.png}}
@@ -182,16 +142,16 @@ introducing the trended variable on the right-hand side of the model will cause 
     estimators for different values of $c_{trend}$. We set $c_{time} = 0$, $c_{var} = 0.25$
     and $c_{unit} = 0.4$. We set $T = 20$, $N = 100$ and simulate the results
     for $500$ times. Graphs visualize the performance
-    of three different estimators: Pooled OLS, \ac{OWFE} estimator and
-    \ac{twfe} estimator. RMSE values for estimators can be found in \Cref{did_apendix} \Cref{table:rmse}(c).
-    \label{fig:c3}
+    of three different estimators: Pooled OLS, OWFE estimator and
+    TWFE estimator.
     }}
+    \label{fig:c3}
 \end{figure}
 Here we used $c_{trend} \in \{0.03, 0.1, 0.25, 0.5\}$.  As we increased the intensity of the trend, we saw that all estimators lost efficiency while
-\ac{twfe} estimator is performing much better than the \ac{OWFE} estimator.
+TWFE estimator is performing much better than the OWFE estimator.
 Moreover, as expected, introducing a correlated unit invariant error term will cause bias for the one-way fixed effect estimator.
 To see that we will use $c_{time} \in \{0, 0.015, 0.05, 0.2\}$ and summarize the results in \Cref{fig:c4}.
-\begin{figure}[t]
+\begin{figure}[H]
     \caption{Density Graph for $ \beta_2 $ Under Different Unit Invariant Correlations}
     %\centerline{\includegraphics{../simulations/plots/unit_invariant_corr.png}}
     \subfigure[]{\includegraphics[width=0.5\textwidth]{../bld/python/figures/c_time/0.png}}
@@ -204,158 +164,16 @@ To see that we will use $c_{time} \in \{0, 0.015, 0.05, 0.2\}$ and summarize the
     and $c_{unit} = 0.4$. We set $T = 20$, $N = 100$ and simulate the results
     for $500$ times. Graphs visualize the performance
     of three different estimators: Pooled OLS, one-way fixed effect estimator and
-    \ac{twfe} estimator. RMSE values for estimators can be found in \Cref{did_apendix} \Cref{table:rmse}(d).
-    \label{fig:c4}}}
+    TWFE estimator.
+    }
+    \label{fig:c4}}
 \end{figure}
 
-In addition to our discussion about efficiency, the  \ac{twfe} estimator eliminates the bias when there are correlated unit-invariant error terms.
+In addition to our discussion about efficiency, the TWFE estimator eliminates the bias when there are correlated unit-invariant error terms.
 With that being said, of course, the dynamics of a real-world setting could be much more different and may not allow for a straightforward interpretation using the methods discussed here.
-We may need more assumptions or control for other potential bias possibilities like reverse causality or selection bias. In this section, we tried to show some properties of Pooled, \ac{OWFE} and
-\ac{twfe} estimators and discuss some cases where we would like to use one over the other. Proper interpretation of estimated values is critical to reaching causal inferences, and in our simulations, we hoped to give insights into such interpretations. Only using these methods with a proper discussion about the underlying model could lead us to sound causal interpretations.
+We may need more assumptions or control for other potential bias possibilities like reverse causality or selection bias. In this section, we tried to show some properties of Pooled, OWFE and
+TWFE estimators and discuss some cases where we would like to use one over the other. Proper interpretation of estimated values is critical to reaching causal inferences, and in our simulations, we hoped to give insights into such interpretations. Only using these methods with a proper discussion about the underlying model could lead us to sound causal interpretations.
 
 In the next section, we will add a binary treatment variable to this model and introduce the generalized DiD model with a  specific focus on the underlying assumptions. Later with an application, we will give an example of how the methods discussed in this section can be used to reach the so-called sound causal interpretations.
 
 \end{document}
-
-
-
-
-
-% \documentclass[11pt, a4paper, leqno]{article}
-% \usepackage{a4wide}
-% \usepackage[T1]{fontenc}
-% \usepackage[utf8]{inputenc}
-% \usepackage{float, afterpage, rotating, graphicx}
-% \usepackage{epstopdf}
-% \usepackage{longtable, booktabs, tabularx}
-% \usepackage{fancyvrb, moreverb, relsize}
-% \usepackage{eurosym, calc}
-% % \usepackage{chngcntr}
-% \usepackage{amsmath, amssymb, amsfonts, amsthm, bm}
-% \usepackage{caption}
-% \usepackage{mdwlist}
-% \usepackage{xfrac}
-% \usepackage{setspace}
-% \usepackage[dvipsnames]{xcolor}
-% \usepackage{subcaption}
-% \usepackage{minibox}
-% % \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
-% % \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some
-% % submissions.
-
-% \usepackage[
-%     natbib=true,
-%     bibencoding=inputenc,
-%     bibstyle=authoryear-ibid,
-%     citestyle=authoryear-comp,
-%     maxcitenames=3,
-%     maxbibnames=10,
-%     useprefix=false,
-%     sortcites=true,
-%     backend=biber
-% ]{biblatex}
-% \AtBeginDocument{\toggletrue{blx@useprefix}}
-% \AtBeginBibliography{\togglefalse{blx@useprefix}}
-% \setlength{\bibitemsep}{1.5ex}
-% \addbibresource{../../paper/refs.bib}
-
-% \usepackage[unicode=true]{hyperref}
-% \hypersetup{
-%     colorlinks=true,
-%     linkcolor=black,
-%     anchorcolor=black,
-%     citecolor=NavyBlue,
-%     filecolor=black,
-%     menucolor=black,
-%     runcolor=black,
-%     urlcolor=NavyBlue
-% }
-
-
-% \widowpenalty=10000
-% \clubpenalty=10000
-
-% \setlength{\parskip}{1ex}
-% \setlength{\parindent}{0ex}
-% \setstretch{1.5}
-
-
-% \begin{document}
-
-% \title{Comparison of Three Panel Data Estimators\thanks{Nebi Simsek, University of Bonn. Email: \href{mailto:s6nesims@uni-bonn.de}{\nolinkurl{s6nesims [at] uni-bonn [dot] de}}.}}
-
-% \author{Nebi Simsek}
-
-% \date{
-%     {\bf Preliminary -- please do not quote}
-%     \\[1ex]
-%     \today
-% }
-
-% \maketitle
-
-
-% \begin{abstract}
-%     Some abstract here.
-% \end{abstract}
-
-% \clearpage
-
-
-% \section{Introduction} % (fold)
-% \label{sec:introduction}
-
-% If you are using this template, please cite this item from the references:
-% \citet{GaudeckerEconProjectTemplates}.
-
-% The data set for the example project is taken from
-% \url{https://www.stem.org.uk/resources/elibrary/resource/28452/large-datasets-stats4schools}.
-% It contains data on smoking habits in the UK, with 1691 observations and 12 variables.
-% We consider only 4 of the 12 features for the prediction of the variable
-% \texttt{smoking}: \texttt{marital\_status}, \texttt{highest\_qualification},
-% \texttt{gender} and \texttt{age}. We model the dependence using a Logistic model. All
-% numerical features are included linearly, while categorical features are expanded into
-% dummy variables. Figures below illustrate the model predictions over the lifetime. You
-% will find one figure and one estimation summary table for each installed programming
-% language.
-
-
-
-% \begin{figure}[H]
-
-%     \centering
-%     \includegraphics[width=0.85\textwidth]{../python/figures/smoking_by_marital_status}
-
-%     \caption{\emph{Python:} Model predictions of the smoking probability over the
-%         lifetime. Each colored line represents a case where marital status is fixed to one
-%         of the values present in the data set.}
-%     \label{fig:python-predictions}
-
-% \end{figure}
-
-
-% \begin{table}[!h]
-%     \input{../python/tables/estimation_results.tex}
-%     \caption{\label{tab:python-summary}\emph{Python:} Estimation results of the
-%         linear Logistic regression.}
-% \end{table}
-
-
-
-
-% % section introduction (end)
-
-
-
-% \setstretch{1}
-% \printbibliography
-% \setstretch{1.5}
-
-
-% % \appendix
-
-% % The chngctr package is needed for the following lines.
-% % \counterwithin{table}{section}
-% % \counterwithin{figure}{section}
-
-% \end{document}

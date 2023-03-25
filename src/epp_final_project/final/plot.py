@@ -1,3 +1,5 @@
+
+
 def plotting_monte_carlo(data, column_list, label_name):
     """A function to produce density plot from certain columns in a dataframe by also
     assigning labels.
@@ -23,6 +25,8 @@ def plotting_monte_carlo(data, column_list, label_name):
     return ax
 
 
+
+# plotting_monte_carlo(
 # def plot_compare(data, column_list, label_name, c_values):
 
 
