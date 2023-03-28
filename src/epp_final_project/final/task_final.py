@@ -96,37 +96,3 @@ for c_trend in c_trend_values:
         )
         ax.set_title(rf"$c_{{trend}}=${group}", fontsize=15)
         ax.figure.savefig(produces)
-
-
-# @pytask.mark.depends_on(BLD / "python" / "data" / "data_clean.csv")
-# @pytask.mark.produces(BLD / "python" / "figures" / "heatmap.png")
-# @pytask.mark.latex(script="document.tex", document="document.pdf")
-# def task_compile_latex_document():
-#     pass
-
-
-# for c_trend in c_trend_values:
-#     @pytask.mark.task(kwargs=kwargs)
-#     def task_plot_results(depends_on, group, produces):
-
-
-# for group in GROUPS:
-
-
-#     @pytask.mark.depends_on(
-#         },
-#     @pytask.mark.task(id=group, kwargs=kwargs)
-#     def task_plot_results_by_age_python(depends_on, group, produces):
-
-
-# @pytask.mark.depends_on(BLD / "python" / "models" / "model.pickle")
-# @pytask.mark.produces(BLD / "python" / "tables" / "estimation_results.tex")
-# def task_create_results_table_python(depends_on, produces):
-#     with open(produces, "w") as f:
-
-
-# for values, names in zip(c_values, c_names):
-#     for value in values:
-#         @pytask.mark.task(kwargs=kwargs)
-#         def task_plot_results(depends_on, produces, group):
-#             """Plotting the densities of the respective columns."""
