@@ -18,6 +18,11 @@ To build the project, type
 $ pytask
 ```
 
+If some of the tasks fail when plotting the results please run it one more time.
+
+The number of simulation, observation and time has decreased due to faster running time.
+These values are adjustable under **task_analysis** folder.
+
 ## Credits
 
 This project was created with [cookiecutter](https://github.com/audreyr/cookiecutter)
