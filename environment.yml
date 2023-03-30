@@ -25,6 +25,7 @@ dependencies:
   - setuptools_scm
   - statsmodels
   - toml
+  - matplotlib
   - pip:
       - -e .
       - kaleido
