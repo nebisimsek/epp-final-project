@@ -1,7 +1,23 @@
-# Comparison of Three Panel Data Estimators
+# Performance of Three Panel Data Estimators
 
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/nebisimsek/epp_final_project/main.svg)](https://results.pre-commit.ci/latest/github/nebisimsek/epp_final_project/main)
 [![image](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## Structure
+
+This project aims to compare the performance of three different panel data estimators
+under different scenarios. These three estimators are pooled estimator, one-way fixed
+effect estimator and two-way fixed effect estimator.
+
+To see their performance under different scenarios, I create a very flexible function
+that you can easily change endogeneity structure with *c_unit* and *c_time*; they
+correspond to the correlation constant of time-invariant and unit-invariant factors. You
+can also add a trended variable with *c_trend* and determine the intensity. Finally with
+*c_var* one can control for the variation over time.
+
+After running the project the simulated results will appear under **bld** folder. The
+results are categorized concerning the values *c_unit*, *c_time*, *c_var* and *c_trend*
+taken. A report will be automatically created as well.
 
 ## Usage
 
